@@ -39,10 +39,10 @@ if ($conn->connect_error) {
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
-    $name = $_POST['Name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $cpassword = $_POST['cpassword'];
+  $name = htmlspecialchars(trim($_POST['Name']), ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars(trim($_POST['email']), ENT_QUOTES, 'UTF-8');
+    $password = htmlspecialchars(trim($_POST['password']), ENT_QUOTES, 'UTF-8');
+    $cpassword = htmlspecialchars(trim($_POST['cpassword']), ENT_QUOTES, 'UTF-8');
 
     // Validate if passwords match
     if ($password !== $cpassword) {
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             if ($insertQuery->execute()) {
                 echo "<script>alert('Registration successful!');</script>";
             } else {
-                echo "Error: " . $insertQuery->error;
+                echo "Error: " .htmlspecialchars($insertQuery->error, ENT_QUOTES, 'UTF-8');
             }
 
             $insertQuery->close();
