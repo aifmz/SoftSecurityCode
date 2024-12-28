@@ -36,11 +36,17 @@ if (isset($_GET['searchinput'])) {
         die('Invalid search input.');
     }
 
-    // Step 3: Use prepared statements to query the database (example with mysqli)
+ // Step 3: Apply specific validation rules
+    if (!preg_match('/^[a-zA-Z0-9\s]+$/', $searchInput)) {
+        die('Invalid search input. Only alphanumeric characters and spaces are allowed.');
+    }
+
+    // Step 4: Use a database connection with prepared statements to prevent SQL injection
     $conn = new mysqli('localhost', 'username', 'password', 'database');
     if ($conn->connect_error) {
         die('Connection failed: ' . $conn->connect_error);
     }
+
 
     $stmt = $conn->prepare("SELECT * FROM table WHERE column LIKE ?");
     $searchParam = "%" . $searchInput . "%";
